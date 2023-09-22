@@ -13,18 +13,6 @@ while (true)
     armoire.GetAttributeList()[0].Activate(armoire);
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 public class GameObject: IAttribute  
 {
     private string name;
@@ -55,10 +43,10 @@ public interface IAttribute
     void Activate(GameObject gameObject);
 }
 
-public class FlammableAttribute : GameObject, IAttribute
+public class FlammableComponent : GameObject, IAttribute
 {
     string? name;
-    public FlammableAttribute() : base(name: "Flammable", attributeList: new List<IAttribute>())
+    public FlammableComponent() : base(name: "Flammable", attributeList: new List<IAttribute>())
     {
     }
 
@@ -72,7 +60,7 @@ public class Chair : GameObject
 {
 
 
-    public Chair() : base(name:"Chair", attributeList : new List<IAttribute>(){new FlammableAttribute()})
+    public Chair() : base(name:"Chair", attributeList : new List<IAttribute>(){new FlammableComponent()})
     {
         
     }
@@ -81,7 +69,7 @@ public class Chair : GameObject
 public class Armoire : GameObject
 {
 
-    public Armoire() : base(name: "Armoire", attributeList: new List<IAttribute>() { new FlammableAttribute() })
+    public Armoire() : base(name: "Armoire", attributeList: new List<IAttribute>() { new FlammableComponent() })
     {
 
     }
