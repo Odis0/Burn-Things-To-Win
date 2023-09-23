@@ -1,9 +1,14 @@
-﻿Chair chair = new Chair();
+﻿using System.Runtime.CompilerServices;
+
+Chair chair = new Chair();
 Armoire armoire = new Armoire();
+WorldObject world = new WorldObject(3, 3);
+world.AddObjectToWorld(armoire, 0, 0);
+List<GameObject>[,] worldArray = world.GetWorldArray();
 
 while (true)
 {
-    
+    Console.WriteLine(worldArray[0, 0][0].GetName());
     Console.WriteLine($"There is a {chair.GetName()} here.");
     Console.ReadLine();
     chair.GetAttributeList()[0].Activate(chair);
@@ -13,65 +18,35 @@ while (true)
     armoire.GetAttributeList()[0].Activate(armoire);
 
 }
-public class GameObject: IAttribute  
+
+
+public class WorldObject
 {
-    private string name;
-    private List<IAttribute> attributeList = new List<IAttribute>();
-    public string GetName()
+    private List<GameObject>[,] worldArray;
+
+
+    public List<GameObject>[,] GetWorldArray()
     {
-        return name;
+        return worldArray; 
     }
 
-    public List<IAttribute> GetAttributeList()
+    public void AddObjectToWorld(GameObject targetObject, int xLocation, int yLocation)
     {
-        return attributeList;
+        worldArray[xLocation, yLocation].Add(targetObject);
     }
 
-    public void Activate(GameObject gameObject)
+
+    public WorldObject(int width, int height)
     {
-        throw new NotImplementedException();
-    }
-
-    public GameObject(string name, List<IAttribute> attributeList)
-    {
-        this.name = name;
-        this.attributeList = attributeList;
-    }
-}
-public interface IAttribute
-{
-    void Activate(GameObject gameObject);
-}
-
-public class FlammableComponent : GameObject, IAttribute
-{
-    string? name;
-    public FlammableComponent() : base(name: "Flammable", attributeList: new List<IAttribute>())
-    {
-    }
-
-    void IAttribute.Activate(GameObject gameObject)
-    {
-        Console.WriteLine($"The {gameObject.GetName()} catches fire and burns to ash.");
-    }
-}
-
-public class Chair : GameObject
-{
-
-
-    public Chair() : base(name:"Chair", attributeList : new List<IAttribute>(){new FlammableComponent()})
-    {
+        worldArray = new List<GameObject>[width, height];
+        
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                worldArray[i, j] = new List<GameObject>();
+            }
+        }
         
     }
-}
-
-public class Armoire : GameObject
-{
-
-    public Armoire() : base(name: "Armoire", attributeList: new List<IAttribute>() { new FlammableComponent() })
-    {
-
-    }
-
 }
