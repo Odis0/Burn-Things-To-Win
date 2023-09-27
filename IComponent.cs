@@ -1,5 +1,5 @@
 ﻿
-public interface IAttribute
+public interface IComponent
 {
     void Activate(GameObject gameObject);
 }

@@ -1,16 +1,19 @@
 ﻿
-public class GameObject: IAttribute  
+public class GameObject : IComponent
 {
     private string name;
-    private List<IAttribute> attributeList = new List<IAttribute>();
+    private List<IComponent> componentList = new List<IComponent>();
+
+
+
     public string GetName()
     {
         return name;
     }
 
-    public List<IAttribute> GetAttributeList()
+    public List<IComponent> GetComponentList()
     {
-        return attributeList;
+        return componentList;
     }
 
     public void Activate(GameObject gameObject)
@@ -18,9 +21,11 @@ public class GameObject: IAttribute
         throw new NotImplementedException();
     }
 
-    public GameObject(string name, List<IAttribute> attributeList)
+
+    public GameObject(string name = "", params IComponent[] componentList)
     {
         this.name = name;
-        this.attributeList = attributeList;
+        this.componentList.AddRange(componentList);
+
     }
 }

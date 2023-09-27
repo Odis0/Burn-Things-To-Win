@@ -1,10 +1,8 @@
 ﻿
 public class Armoire : GameObject
 {
+    public Armoire() : base(name: "Armoire", componentList: new IComponent[] {new FlammableComponent() }) { }
 
-    public Armoire() : base(name: "Armoire", attributeList: new List<IAttribute>() { new FlammableComponent() })
-    {
 
-    }
 
 }

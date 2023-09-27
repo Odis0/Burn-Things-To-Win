@@ -3,8 +3,10 @@ public class Chair : GameObject
 {
 
 
-    public Chair() : base(name:"Chair", attributeList : new List<IAttribute>(){new FlammableComponent()})
+    public Chair(string name = "Chair", params IComponent[] componentList) : base(name: name, componentList: componentList)
     {
-        
+
     }
+
+
 }
