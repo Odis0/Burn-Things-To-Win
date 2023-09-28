@@ -21,6 +21,11 @@ public class GameObject : IComponent
         throw new NotImplementedException();
     }
 
+    public void AddNewComponentToObjectComponentList(IComponent component)
+    {
+        componentList.Add(component);
+    }
+
     public LocationComponent GetObjectLocationComponent()
     {
         foreach (IComponent component in componentList)
