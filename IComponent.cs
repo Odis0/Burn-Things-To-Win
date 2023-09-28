@@ -1,5 +1,5 @@
 ﻿
 public interface IComponent
 {
-    void Activate(GameObject gameObject);
+    void Update(GameObject gameObject);
 }

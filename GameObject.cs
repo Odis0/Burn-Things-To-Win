@@ -16,12 +16,23 @@ public class GameObject : IComponent
         return componentList;
     }
 
-    public void Activate(GameObject gameObject)
+    public void Update(GameObject gameObject)
     {
         throw new NotImplementedException();
     }
 
+    public LocationComponent GetObjectLocationComponent()
+    {
+        foreach (IComponent component in componentList)
+        {
+            if (component is LocationComponent locationComponent)
+            {
+                return locationComponent;
+            }
 
+        }
+        return null;
+    }
     public GameObject(string name = "", params IComponent[] componentList)
     {
         this.name = name;

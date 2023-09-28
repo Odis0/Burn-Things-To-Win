@@ -1,42 +1,76 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
-
-Chair chair = new Chair("Chair",new IComponent[] { new LocationComponent(0,0),new FlammableComponent() });
-///Armoire armoire = new Armoire();
-Investigator investigator = new Investigator();
-List<GameObject> gameObjectList = new List<GameObject>() { chair, investigator};
+using System.Runtime.InteropServices;
+using System.Xml.Linq;
 
 
-WorldObject world = new WorldObject(3, 3,gameObjectList);
-///world.AddObjectToWorld(armoire, 0, 0);
+GameObjectList gameObjectList = new GameObjectList();
+GameObject? playerObject = GetPlayerObject(gameObjectList);
+
+GameObject GetPlayerObject(GameObjectList gameObjectList)
+{
+    foreach (GameObject obj in gameObjectList.GetGameObjectList())
+    {
+        foreach (IComponent component in obj.GetComponentList())
+        {
+            if (component is PlayerComponent)
+            {
+                return obj;
+            }
+        }
+    }
+
+    // This message will be displayed only if no objects have the PlayerComponent.
+    Console.WriteLine("No objects have the PlayerComponent component.");
+
+    // Return null or throw an exception depending on your requirements.
+    return null;
+}
+
+
+
+WorldObject world = new WorldObject(3, 3, gameObjectList.GetGameObjectList());
 List<GameObject>[,] worldArray = world.GetWorldArray();
+
+
 
 while (true)
 {
-    List<IComponent> chairComponentList = chair.GetComponentList();
-    LocationComponent SelectedComponent = (LocationComponent)chairComponentList[0];
-    Console.WriteLine(chairComponentList[0]);
-    SelectedComponent.PrintObjectLocation();
+    LocationComponent playerLocationComponent = playerObject.GetObjectLocationComponent();
+    List<GameObject> playerLocation = worldArray[playerLocationComponent.GetXLocation(), playerLocationComponent.GetYLocation()];
+    GameObject playerRoom = playerLocation[0];
+    Console.WriteLine(playerRoom.GetName());
+    Console.ReadLine();
 
-    
-    ///Console.WriteLine(worldArray[0, 0][0].GetName());
-    ///Console.WriteLine($"There is a {chair.GetName()} here.");
-    Console.ReadLine();
-    ///chair.GetComponentList()[1].Activate(chair);
-    /*
-    Console.WriteLine($"There is an {armoire.GetName()} here.");
-    Console.ReadLine();
-    armoire.GetComponentList()[0].Activate(armoire);
-    */
 }
 
 
-public class Investigator : GameObject
+
+
+public class GameObjectList
 {
+    private List<GameObject> gameObjectList = new List<GameObject>();
 
-    public Investigator(): base("Investigator", componentList: new IComponent[] {new PlayerComponent(),new LocationComponent(0,0), new MoveableComponent() }) { }
+    public List<GameObject> GetGameObjectList()
+    {
+        return gameObjectList;
+    }
+
+    public GameObjectList()
+    {
+        gameObjectList.Add(new GameObject(name:"Entrance",componentList: new IComponent[] {new LocationComponent(0,0)}));
+        gameObjectList.Add(new GameObject(name: "Investigator", componentList: new IComponent[] { new LocationComponent(0, 0), new PlayerComponent() }));
+        gameObjectList.Add(new GameObject(name: "Chair", componentList: new IComponent[] { new FlammableComponent() }));
+        gameObjectList.Add(new GameObject(name: "Armoire", componentList: new IComponent[] { new FlammableComponent() }));
+
+        GetGameObjectList();
+    
+    
+    }
 
 }
+
 
 
 public class MoveableComponent : GameObject, IComponent
@@ -107,6 +141,9 @@ public class WorldObject
     }
 
 
+
+
+
     public WorldObject(int width, int height, List<GameObject> gameObjectList)
     {
 
@@ -132,7 +169,8 @@ public class WorldObject
                     int xLocation = locationComponent.GetXLocation();
                     int yLocation = locationComponent.GetYLocation();
 
-                    worldArray[xLocation, yLocation].Add(obj);
+                    AddObjectToWorld(obj, xLocation, yLocation);
+
                 }
             }
         }
