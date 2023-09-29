@@ -6,49 +6,149 @@ using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
 
 
-GameObjectList gameObjectList = new GameObjectList();
-GameObject? playerObject = GetPlayerObject(gameObjectList);
+GameObjectList gameObjectList = new GameObjectList(); ///Initialize gameObjectList.
+GameObject? playerObject = gameObjectList.GetPlayerObject(); ///Get the object with the PlayerComponent component.
+WorldObject world = new WorldObject(3, 3, gameObjectList.GetGameObjectList()); ///Build the world with the objects in the gameObject list.
+List<GameObject>[,] worldArray = world.GetWorldArray(); ///Save the worldArray in a variable that's easy to reference.
 
-GameObject GetPlayerObject(GameObjectList gameObjectList)
+///GameObject playerRoom;
+
+while (true)
 {
-    foreach (GameObject obj in gameObjectList.GetGameObjectList())
+    ///playerRoom = world.GetObjectRoomFromObject(playerObject);
+    ///playerUI.DisplayPlayerRoomName(playerRoom.GetName());
+
+    PlayerUI playerUI = new PlayerUI(playerObject, world);
+
+
+
+    ///int playerInput1 = playerUI.GetPlayerInput();
+    ///world.MoveObjectBetweenWorldArrayLists(playerObject, worldArray[0, 1]);
+
+}
+
+public class PlayerUI
+{
+    GameObject player;
+    WorldObject world;
+    public PlayerUI(GameObject player, WorldObject world)
+    { 
+        this.player = player; 
+        this.world = world;
+        DisplayUITopLevel();
+    }
+    
+
+    public void DisplayPlayerRoomName(GameObject player)
     {
-        foreach (IComponent component in obj.GetComponentList())
+        Console.WriteLine(world.GetObjectRoomFromObject(player).GetName());
+    }
+
+    public void DisplayUITopLevel()
+    {
+        while (true)
         {
-            if (component is PlayerComponent)
+            Console.WriteLine();
+            DisplayPlayerRoomName(player);
+            Console.WriteLine();
+
+            int input0 = DisplayMainActionMenu();
+            switch (input0)
             {
-                return obj;
+                case 0:
+                    DisplayMoveActionMenu();
+                    break;
+                default:
+                    Console.WriteLine("That's not a valid option.");
+                    break;
+            }
+
+        }
+
+    }
+        public int DisplayMainActionMenu()
+        {
+                Console.WriteLine("What would you like to do?\n");
+                Console.WriteLine("0: Move");
+                int playerInput = GetPlayerInput();
+                return playerInput;
+            
+        }
+
+    public void DisplayMoveActionMenu()
+    {
+        while (true)
+        {
+            List<List<GameObject>> listOfAdjacentLocationLists = world.GetLocationListsAdjacentFromObject(player);
+            List<List<GameObject>> nonNullLists = new List<List<GameObject>>();
+
+            Console.WriteLine("Where would you like to move?\n");
+
+            int i = 0;
+            foreach (List<GameObject> selectedList in listOfAdjacentLocationLists)
+            {
+                if (selectedList.Count > 0 && selectedList[0] != null)
+                {
+                    Console.WriteLine($"{i}:{selectedList[0].GetName()}");
+                    nonNullLists.Add(selectedList); // Add non-null lists to a new list
+                    i++;
+                }
+            }
+
+            Console.WriteLine($"{i}: Back");
+            int playerInput = GetPlayerInput();
+            if (playerInput >= 0 && playerInput < i)
+            {
+                world.MoveObjectBetweenWorldArrayLists(player, nonNullLists[playerInput]);
+                break;
+            }
+            else if (playerInput == i)
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("You can't move there.");
             }
         }
     }
 
-    // This message will be displayed only if no objects have the PlayerComponent.
-    Console.WriteLine("No objects have the PlayerComponent component.");
-
-    // Return null or throw an exception depending on your requirements.
-    return null;
-}
-
-
-
-WorldObject world = new WorldObject(3, 3, gameObjectList.GetGameObjectList());
-List<GameObject>[,] worldArray = world.GetWorldArray();
-
-GameObject playerRoom;
-
-while (true)
-{
-    playerRoom = world.GetObjectRoomFromObject(playerObject);
-    Console.WriteLine(playerRoom.GetName());
-    Console.ReadLine();
-    world.MoveObjectBetweenWorldArrayLists(playerObject, worldArray[0, 1]);
-
-}
 
 
 
 
-public class GameObjectList
+
+
+    public int GetPlayerInput()
+        {
+            while (true)
+            {
+                string playerInput = Console.ReadLine();
+
+                // Check if the input is empty (null or whitespace)
+                if (string.IsNullOrWhiteSpace(playerInput))
+                {
+                    Console.WriteLine("What was that?");
+                    continue; // Go back to the start of the loop
+                }
+
+                // Try to parse the input as an integer
+                if (int.TryParse(playerInput, out int intValue))
+                {
+                    return intValue; // Return the parsed integer
+                }
+                else
+                {
+                    Console.WriteLine("Please input an integer");
+                }
+            }
+        }
+    }
+
+    
+
+
+    public class GameObjectList
 {
     private List<GameObject> gameObjectList = new List<GameObject>();
 
@@ -57,6 +157,27 @@ public class GameObjectList
         return gameObjectList;
     }
 
+    public GameObject GetPlayerObject()
+    {
+        foreach (GameObject obj in gameObjectList)
+        {
+            foreach (IComponent component in obj.GetComponentList())
+            {
+                if (component is PlayerComponent)
+                {
+                    return obj;
+                }
+            }
+        }
+
+        // This message will be displayed only if no objects have the PlayerComponent.
+        Console.WriteLine("No objects have the PlayerComponent component.");
+
+        // Return null or throw an exception depending on your requirements.
+        return null;
+    }
+
+
     public GameObjectList()
     {
 
@@ -64,8 +185,10 @@ public class GameObjectList
         ///Rooms
         gameObjectList.Add(new GameObject(name:"Entrance",componentList: new IComponent[] {new LocationComponent(0,0)}));
         gameObjectList.Add(new GameObject(name: "Living Room", componentList: new IComponent[] { new LocationComponent(0, 1) }));
-        
-        
+        gameObjectList.Add(new GameObject(name: "Den", componentList: new IComponent[] { new LocationComponent(1, 0) }));
+        gameObjectList.Add(new GameObject(name: "Kitchen", componentList: new IComponent[] { new LocationComponent(2, 2) }));
+
+
         ///Objects
         gameObjectList.Add(new GameObject(name: "Investigator", componentList: new IComponent[] { new LocationComponent(0, 0), new PlayerComponent() }));
         gameObjectList.Add(new GameObject(name: "Chair", componentList: new IComponent[] { new FlammableComponent() }));
@@ -76,163 +199,4 @@ public class GameObjectList
     
     }
 
-}
-
-
-
-
-
-public class PlayerComponent : GameObject, IComponent
-{
-
-}
-
-public class LocationComponent: GameObject, IComponent
-{
-    private int xLocation;
-    private int yLocation;
-
-    public int GetXLocation() { return xLocation; }
-    public int GetYLocation() { return yLocation; }
-
-    public void SetXLocation(int xLocation) { this.xLocation = xLocation; }
-
-    public void SetYLocation(int yLocation) { this.yLocation = yLocation; }
-
-    public void PrintObjectLocation()
-    {
-        Console.WriteLine($"({this.xLocation},{this.yLocation})");
-    }
-    public LocationComponent(int xLocation, int yLocation)
-    {
-        this.xLocation = xLocation;
-        this.yLocation = yLocation;
-
-
-    }
-
-
-
-}
-
-
-
-public class WorldObject
-{
-    private List<GameObject>[,] worldArray;
-
-
-    public List<GameObject>[,] GetWorldArray()
-    {
-        return worldArray;
-    }
-
-    public void AddObjectToWorldWithXY(GameObject gameObject, int xLocation, int yLocation)
-    {
-        worldArray[xLocation, yLocation].Add(gameObject);
-    }
-
-    public void AddObjectToWorldWithWorldArrayList(GameObject gameObject, List<GameObject> targetWorldArrayList)
-    {
-        targetWorldArrayList.Add(gameObject);
-    }
-
-    public void RemoveObjectFromWorld(GameObject gameObject)
-    {
-        List<GameObject> objectLocation = GetObjectLocationListInWorldArray(gameObject);
-        objectLocation.Remove(gameObject);
-    }
-
-    public List<GameObject> GetObjectLocationListInWorldArray(GameObject gameObject)
-    {
-        LocationComponent locationComponent = gameObject.GetObjectLocationComponent();
-        List<GameObject> objectLocationList = worldArray[locationComponent.GetXLocation(), locationComponent.GetYLocation()];
-        return objectLocationList;
-    }
-
-    public void MoveObjectBetweenWorldArrayLists(GameObject gameObject, List<GameObject> targetLocationList)///Moves an object from one location list to another in the world array and sets their LocationComponent to equal that of the room they're now in.
-    {
-        ///Remove from the current WorldArrayList.
-        RemoveObjectFromWorld(gameObject);
-
-        ///Set gameObject LocationComponent to the LocationComponent of the new room.
-        LocationComponent objectLocationComponent = gameObject.GetObjectLocationComponent();
-        LocationComponent targetLocationComponent = GetRoomLocationComponentFromLocationList(targetLocationList);
-        objectLocationComponent.SetXLocation(targetLocationComponent.GetXLocation());
-        objectLocationComponent.SetYLocation(targetLocationComponent.GetYLocation());
-
-        ///Add to new targetLocationList
-        AddObjectToWorldWithWorldArrayList(gameObject, targetLocationList);
-
-
-    }
-    
-    public GameObject GetObjectRoomFromObject(GameObject gameObject)
-    {
-        List<GameObject> objectLocationList = GetObjectLocationListInWorldArray(gameObject);
-        return objectLocationList[0];
-    }
-
-
-    public LocationComponent GetRoomLocationComponentFromLocationList(List<GameObject> locationList)
-    {
-        GameObject targetRoom = locationList[0];
-        LocationComponent targetLocationComponent = targetRoom.GetObjectLocationComponent();
-        return targetLocationComponent;    
-    }
-
-
-    /* This function doesn't work yet.
-    public void SetObjectLocationComponentToCurrentRoomLocationComponent(GameObject gameObject) ///This is to make it so that an object can set their location component to the coordinates of the room they're in.
-    {
-        List<GameObject> gameObjectLocationList = GetObjectLocationListInWorldArray(gameObject);
-        LocationComponent roomLocationComponent = GetRoomLocationComponentFromLocationList(gameObjectLocationList);
-
-
-        foreach (IComponent component in gameObject.GetComponentList())
-        {
-            if (component is LocationComponent locationComponent)
-            {
-                locationComponent = roomLocationComponent;
-            }
-
-        }
-        gameObject.AddNewComponentToObjectComponentList(roomLocationComponent);
-    }
-
-    */
-
-    public WorldObject(int width, int height, List<GameObject> gameObjectList)
-    {
-
-        GameObject gameObject = new GameObject();
-
-        worldArray = new List<GameObject>[width, height];
-
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < height; j++)
-            {
-                worldArray[i, j] = new List<GameObject>();
-            }
-        }
-
-        foreach (GameObject obj in gameObjectList)
-        {
-            List<IComponent> objectComponentList = obj.GetComponentList();
-            foreach (IComponent component in objectComponentList)
-            {
-                if (component is LocationComponent locationComponent)
-                {
-                    int xLocation = locationComponent.GetXLocation();
-                    int yLocation = locationComponent.GetYLocation();
-
-                    AddObjectToWorldWithXY(obj, xLocation, yLocation);
-
-                }
-            }
-        }
-
-
-    }
 }
