@@ -38,6 +38,22 @@ public class GameObject : IComponent
         }
         return null;
     }
+
+
+    public T GetObjectComponentOfType<T>(Type componentType) where T : class
+    {
+        foreach (IComponent component in componentList)
+        {
+            if (component.GetType().Equals(componentType))
+            {
+                return (T)component;
+            }
+        }
+        return null;
+    }
+
+
+
     public GameObject(string name = "", params IComponent[] componentList)
     {
         this.name = name;

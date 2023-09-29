@@ -51,6 +51,8 @@ public class PlayerUI
             Console.WriteLine();
             DisplayPlayerRoomName(player);
             Console.WriteLine();
+            Console.WriteLine(world.GetObjectRoomFromObject(player).GetObjectComponentOfType<DescriptionInRoomComponent>(typeof(DescriptionInRoomComponent)).GetDescription());
+            Console.WriteLine();
 
             int input0 = DisplayMainActionMenu();
             switch (input0)
@@ -183,10 +185,10 @@ public class PlayerUI
 
 
         ///Rooms
-        gameObjectList.Add(new GameObject(name:"Entrance",componentList: new IComponent[] {new LocationComponent(0,0)}));
-        gameObjectList.Add(new GameObject(name: "Living Room", componentList: new IComponent[] { new LocationComponent(0, 1) }));
-        gameObjectList.Add(new GameObject(name: "Den", componentList: new IComponent[] { new LocationComponent(1, 0) }));
-        gameObjectList.Add(new GameObject(name: "Kitchen", componentList: new IComponent[] { new LocationComponent(2, 2) }));
+        gameObjectList.Add(new GameObject(name:"Entrance",componentList: new IComponent[] {new LocationComponent(0,0), new DescriptionInRoomComponent("You stand in the entryway of an ancient and eerie house.")}));
+        gameObjectList.Add(new GameObject(name: "Living Room", componentList: new IComponent[] { new LocationComponent(0, 1), new DescriptionInRoomComponent("Dust covers the furniture in this living room, though 'living' isn't the first word you'd associate with this forsaken place.") }));
+        gameObjectList.Add(new GameObject(name: "Study", componentList: new IComponent[] { new LocationComponent(1, 0), new DescriptionInRoomComponent("This study was once a place where serious work was done. The only laborers here now are spiders, diligently spinning their cobwebs.")}));
+        gameObjectList.Add(new GameObject(name: "Kitchen", componentList: new IComponent[] { new LocationComponent(2, 0), new DescriptionInRoomComponent("This kitchen isn't exactly what you'd call 'hygenic,' though food was definitely prepared here at some point.") }));
 
 
         ///Objects
