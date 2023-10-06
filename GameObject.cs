@@ -1,4 +1,6 @@
 ﻿
+using System.Runtime.CompilerServices;
+
 public class GameObject : IComponent
 {
     private string name;
@@ -24,6 +26,29 @@ public class GameObject : IComponent
     public void AddNewComponentToObjectComponentList(IComponent component)
     {
         componentList.Add(component);
+    }
+
+    public void MoveObjectByDirection(WorldObject.Direction direction, WorldObject worldObject)
+    {
+        switch (direction)
+        {
+            case WorldObject.Direction.East:
+                GetObjectLocationComponent().MoveEast(this, worldObject);
+                break;
+            case WorldObject.Direction.West:
+                GetObjectLocationComponent().MoveWest(this, worldObject);
+                break;
+            case WorldObject.Direction.South:
+                GetObjectLocationComponent().MoveSouth(this, worldObject);
+                break;
+            case WorldObject.Direction.North:
+                GetObjectLocationComponent().MoveNorth(this, worldObject);
+                break;
+            default:
+                break;
+        }
+             
+        
     }
 
     public LocationComponent GetObjectLocationComponent()

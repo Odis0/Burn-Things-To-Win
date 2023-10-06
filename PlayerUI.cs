@@ -1,4 +1,7 @@
-﻿public class PlayerUI
+﻿using static WorldObject;
+using System.Collections.Generic;
+
+public class PlayerUI
 {
     GameObject player;
     WorldObject world;
@@ -29,6 +32,10 @@
                 case 0:
                     DisplayMoveActionMenu();
                     break;
+/*Test for moving by direction.
+                case 1:
+                    player.MoveObjectByDirection(WorldObject.Direction.North,world); break;
+*/
                 default:
                     Console.WriteLine("That's not a valid option.");
                     break;
@@ -50,7 +57,7 @@
     {
         while (true)
         {
-            List<List<GameObject>> listOfAdjacentLocationLists = world.GetLocationListsAdjacentFromObject(player);
+            List <List< AdjacentLocationListWithDirection >> listOfAdjacentLocationLists = world.GetLocationListsAdjacentFromObject(player);
             List<List<GameObject>> nonNullLists = new List<List<GameObject>>();
 
             Console.WriteLine("Where would you like to move?\n");

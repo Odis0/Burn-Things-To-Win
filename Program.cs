@@ -11,6 +11,7 @@ GameObject? playerObject = gameObjectList.GetPlayerObject(); ///Get the object w
 WorldObject world = new WorldObject(3, 3, gameObjectList.GetGameObjectList()); ///Build the world with the objects in the gameObject list.
 List<GameObject>[,] worldArray = world.GetWorldArray(); ///Save the worldArray in a variable that's easy to reference.
 
+
 ///GameObject playerRoom;
 
 while (true)
