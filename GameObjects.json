@@ -1,0 +1,79 @@
+[
+  ///This doesn't work yet. It's left over from my attempts to initialize from Jsons, but it had trouble initializing things that inherited from IComponent. SAD.
+  ///Rooms are laid out here.
+  {
+    "Name": "Entrance",
+    "Components": [
+      {
+        "Type": "Burn_Things_To_Win.LocationComponent, $(MSBuildProjectName)",
+        "X": 0,
+        "Y": 0
+      },
+      {
+        "Type": "Burn_Things_To_Win.DescriptionInRoomComponent, $(MSBuildProjectName)",
+        "Description": "You stand in the entryway of an ancient and eerie house."
+      }
+    ]
+  }
+,
+  {
+    "Name": "Living Room",
+    "Components": [
+      {
+        "Type": "Burn_Things_To_Win.LocationComponent, $(MSBuildProjectName)",
+        "X": 0,
+        "Y": 1
+      },
+      {
+        "Type": "Burn_Things_To_Win.DescriptionInRoomComponent, $(MSBuildProjectName)",
+        "Description": "Dust covers the furniture in this living room, though 'living' isn't the first word you'd associate with this forsaken place."
+      }
+    ]
+  }
+,
+  {
+    "Name": "Study",
+    "Components": [
+      {
+        "Type": "Burn_Things_To_Win.LocationComponent, $(MSBuildProjectName)",
+        "X": 1,
+        "Y": 0
+      },
+      {
+        "Type": "Burn_Things_To_Win.DescriptionInRoomComponent, $(MSBuildProjectName)",
+        "Description": "This study was once a place where serious work was done. The only laborers here now are spiders, diligently spinning their cobwebs."
+      }
+    ]
+  }
+,
+  {
+    "Name": "Kitchen",
+    "Components": [
+      {
+        "Type": "Burn_Things_To_Win.LocationComponent, $(MSBuildProjectName)",
+        "X": 2,
+        "Y": 0
+      },
+      {
+        "Type": "Burn_Things_To_Win.DescriptionInRoomComponent, $(MSBuildProjectName)",
+        "Description": "This kitchen isn't exactly what you'd call 'hygenic,' though food was definitely prepared here at some point."
+      }
+    ]
+  }
+  /// Other GameObjects are laid out here.
+,
+  {
+    "Name": "Investigator",
+    "Components": [
+      {
+        "Type": "Burn_Things_To_Win.LocationComponent, $(MSBuildProjectName)",
+        "X": 0,
+        "Y": 0
+      },
+      {
+        "Type": "Burn_Things_To_Win.PlayerComponent, $(MSBuildProjectName)"
+      }
+    ]
+  }
+
+]
