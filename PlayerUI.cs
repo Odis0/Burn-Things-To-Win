@@ -1,4 +1,5 @@
-﻿public class PlayerUI
+﻿/*
+public class PlayerUI
 {
     GameObject player;
     WorldObject world;
@@ -115,3 +116,4 @@
             }
         }
     }
+*/
