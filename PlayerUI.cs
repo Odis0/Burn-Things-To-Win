@@ -2,18 +2,18 @@
 public class PlayerUI
 {
     GameObject player;
-    WorldObject world;
-    public PlayerUI(GameObject player, WorldObject world)
+    GameObjectList gameObjectList;
+    public PlayerUI(GameObject player, GameObjectList gameObjectList)
     { 
         this.player = player; 
-        this.world = world;
+        this.gameObjectList = gameObjectList;
         DisplayUITopLevel();
     }
     
 
     public void DisplayPlayerRoomName(GameObject player)
     {
-        Console.WriteLine(world.GetObjectRoomFromObject(player).GetName());
+        Console.WriteLine(gameObjectList.GetObjectRoomFromObject(player).GetName());
     }
 
     public void DisplayUITopLevel()
