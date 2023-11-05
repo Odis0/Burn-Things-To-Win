@@ -65,6 +65,7 @@ while (true)
                     Console.WriteLine("That's not a valid option.");
                     break;
             }
+            break;
 
         }
 
@@ -102,6 +103,7 @@ while (true)
                 LocationComponent selectedLocation = adjacentRoomsWithDirections[playerinput0].Item1.GetObjectLocationComponent();
                 playerObject.GetObjectLocationComponent().SetXLocation(selectedLocation.GetXLocation());
                 playerObject.GetObjectLocationComponent().SetYLocation(selectedLocation.GetYLocation());
+                break;            
             }
             
 
