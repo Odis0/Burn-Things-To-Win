@@ -153,12 +153,14 @@
     {
 
         ///Define Rooms
-        GameObject entrance = new GameObject(name: "Entrance", componentList: new IComponent[] { new LocationComponent(0, 0), new RoomComponent(), new DescriptionInRoomComponent("You stand in the entryway of an ancient and eerie house.") });
-        GameObject livingRoom = new GameObject(name: "Living Room", componentList: new IComponent[] { new LocationComponent(0, 1), new RoomComponent(), new DescriptionInRoomComponent("Dust covers the furniture in this living room, though 'living' isn't the first word you'd associate with this forsaken place.") });
-        GameObject den = new GameObject(name: "Den", componentList: new IComponent[] { new LocationComponent(1, 0), new RoomComponent(), new DescriptionInRoomComponent("This study was once a place where serious work was done. The only laborers here now are spiders, diligently spinning their cobwebs.") });
-        GameObject kitchen = new GameObject(name: "Kitchen", componentList: new IComponent[] { new LocationComponent(2, 2), new RoomComponent(), new DescriptionInRoomComponent("This kitchen isn't exactly what you'd call 'hygenic,' though food was definitely prepared here at some point.") });
 
-        ///Define RoomConnections
+        Room entrance = new Room("Entrance", 0, 0, "You stand in the entryway of an ancient and eerie house.");
+        Room livingRoom = new Room("Living Room", 0, 1, "Dust covers the furniture in this living room, though 'living' isn't the first word you'd associate with this forsaken place.");
+        Room den = new Room("Den", 1, 0, "This study was once a place where serious work was done. The only laborers here now are spiders, diligently spinning their cobwebs.");
+        Room kitchen = new Room("Kitchen", 1, 1, "This kitchen isn't exactly what you'd call 'hygenic,' though food was definitely prepared here at some point.");
+        Room clownHole = new Room("Clown Hole", 0, 2, "This is the clown's evil place of evil.");
+
+        ///Define RoomConnections Maybe? I don't know if I want to force all connections to be explicit.
 
 
         ///AddRoomsToObjectList
@@ -167,19 +169,29 @@
         gameObjectList.Add(livingRoom);
         gameObjectList.Add(den);
         gameObjectList.Add(kitchen);
+        gameObjectList.Add(clownHole);
 
 
         ///Objects
         gameObjectList.Add(new GameObject(name: "Investigator", componentList: new IComponent[] { new LocationComponent(0, 0), new PlayerComponent() }));
         gameObjectList.Add(new GameObject(name: "Chair", componentList: new IComponent[] { new FlammableComponent() }));
         gameObjectList.Add(new GameObject(name: "Armoire", componentList: new IComponent[] { new FlammableComponent() }));
+        gameObjectList.Add(new GameObject(name: "Creepy Clown", componentList: new IComponent[] { new LocationComponent(0, 0) }));
+
 
         GetGameObjectList();
 
 
     }
 
-}   
+}
 
+public class Room : GameObject
+{
+    public Room(string name, int XCoordinate, int YCoordinate, string descriptionInRoom)
+        : base(name, new LocationComponent(XCoordinate, YCoordinate), new RoomComponent(), new DescriptionInRoomComponent(descriptionInRoom))
+    {
+    }
+}
 
 

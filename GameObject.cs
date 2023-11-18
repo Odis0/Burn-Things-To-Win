@@ -1,4 +1,5 @@
 ﻿
+
 public class GameObject : IComponent
 {
     private string name;
@@ -16,9 +17,17 @@ public class GameObject : IComponent
         return componentList;
     }
 
-    public void Update(GameObject gameObject)
+    public void Update(GameObject? gameObject = null)
     {
-        throw new NotImplementedException();
+        UpdateComponents();
+    }
+
+    private void UpdateComponents()
+    {
+        foreach (IComponent component in componentList)
+        {
+            component.Update(this);
+        }
     }
 
     public void AddNewComponentToObjectComponentList(IComponent component)
@@ -53,7 +62,7 @@ public class GameObject : IComponent
 
 
 
-public GameObject(string name = "", params IComponent[] componentList)
+    public GameObject(string name = "", params IComponent[] componentList)
     {
         this.name = name;
         this.componentList.AddRange(componentList);

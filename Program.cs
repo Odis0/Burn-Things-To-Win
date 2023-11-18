@@ -30,8 +30,31 @@ while (true)
     }
 
     DescriptionInRoomComponent? currentRoomDescription = currentRoom.GetObjectComponentOfType<DescriptionInRoomComponent>();
+
+    ///This shows the name of the current room.
+    Console.WriteLine($"{currentRoom.GetName()}\n");
+
+    ///This displays the description of the current Room. Probably should be in the playerUI, but it's not yet.
     Console.WriteLine(currentRoomDescription.GetDescription());
-    playerUI.DisplayUITopLevel();
-}
+    
+    ///This displays the names of the objects in the player's current room.
+    Console.WriteLine("\nYou see the following here:");
+    foreach (GameObject obj in objectsAtCurrentLocation)
+    {
+        if (obj != currentRoom && obj != playerObject)
+        {
+            Console.WriteLine($"{obj.GetName()}\n");
+        }
+    }
+        ///This goes into the context menus.
+        playerUI.DisplayUITopLevel();
+
+        ///Run update function after a turn is taken.
+        foreach (GameObject gameObject in gameObjectList.GetGameObjectList())
+        {
+            gameObject.Update();
+        }
+    }
+
 
 
