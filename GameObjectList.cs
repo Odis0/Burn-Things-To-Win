@@ -173,10 +173,14 @@
 
 
         ///Objects
-        gameObjectList.Add(new GameObject(name: "Investigator", componentList: new IComponent[] { new LocationComponent(0, 0), new PlayerComponent() }));
+        ///gameObjectList.Add(new GameObject(name: "Investigator", componentList: new IComponent[] { new LocationComponent(0, 0), new PlayerComponent() }));
         gameObjectList.Add(new GameObject(name: "Chair", componentList: new IComponent[] { new FlammableComponent() }));
         gameObjectList.Add(new GameObject(name: "Armoire", componentList: new IComponent[] { new FlammableComponent() }));
-        gameObjectList.Add(new GameObject(name: "Creepy Clown", componentList: new IComponent[] { new LocationComponent(0, 0) }));
+        ///gameObjectList.Add(new GameObject(name: "Creepy Clown", componentList: new IComponent[] { new LocationComponent(0, 0) }));
+
+        gameObjectList.Add(new Player("Investigator", 0, 0));
+        gameObjectList.Add(new Character("Creepy Clown", 0, 0, new FlammableComponent()));
+
 
 
         GetGameObjectList();
@@ -186,12 +190,19 @@
 
 }
 
-public class Room : GameObject
+public class Character:GameObject
 {
-    public Room(string name, int XCoordinate, int YCoordinate, string descriptionInRoom)
-        : base(name, new LocationComponent(XCoordinate, YCoordinate), new RoomComponent(), new DescriptionInRoomComponent(descriptionInRoom))
+    public Character(string name,int XCoordinate, int YCoordinate, params IComponent[] componentList) : base(name, new LocationComponent(XCoordinate, YCoordinate))
     {
+        this.GetComponentList().AddRange(componentList);
     }
+
 }
 
-
+public class Player : Character
+{
+    public Player(string name, int XCoordinate, int YCoordinate, params IComponent[] componentList) : base(name, XCoordinate,YCoordinate, new IComponent[] {new PlayerComponent()})
+    {
+        this.GetComponentList().AddRange(componentList);
+    }
+}
