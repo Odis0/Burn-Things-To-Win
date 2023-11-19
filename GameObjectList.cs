@@ -173,11 +173,12 @@
 
 
         ///Objects
-        ///gameObjectList.Add(new GameObject(name: "Investigator", componentList: new IComponent[] { new LocationComponent(0, 0), new PlayerComponent() }));
-        gameObjectList.Add(new GameObject(name: "Chair", componentList: new IComponent[] { new FlammableComponent() }));
-        gameObjectList.Add(new GameObject(name: "Armoire", componentList: new IComponent[] { new FlammableComponent() }));
-        ///gameObjectList.Add(new GameObject(name: "Creepy Clown", componentList: new IComponent[] { new LocationComponent(0, 0) }));
+        ///gameObjectList.Add(new GameObject(name: "Chair", componentList: new IComponent[] { new FlammableComponent() }));
+        ///gameObjectList.Add(new GameObject(name: "Armoire", componentList: new IComponent[] { new FlammableComponent() }));
 
+
+        gameObjectList.Add(new Item("Chair", new FlammableComponent()));
+        gameObjectList.Add(new Item("Armoire", new FlammableComponent()));
         gameObjectList.Add(new Player("Investigator", 0, 0));
         gameObjectList.Add(new Character("Creepy Clown", 0, 0, new FlammableComponent()));
 
@@ -188,6 +189,14 @@
 
     }
 
+}
+
+public class Item : GameObject
+{
+    public Item(string name, params IComponent[] componentList) : base(name)
+    {
+        this.GetComponentList().AddRange(componentList);
+    }
 }
 
 public class Character:GameObject

@@ -2,7 +2,7 @@
 
 public class FlammableComponent : GameObject, IComponent
 {
-    private bool active = false;
+    private bool active = true;
     private int amountBurned = 0;
 
 
