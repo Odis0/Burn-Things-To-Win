@@ -173,8 +173,6 @@
 
 
         ///Objects
-        ///gameObjectList.Add(new GameObject(name: "Chair", componentList: new IComponent[] { new FlammableComponent() }));
-        ///gameObjectList.Add(new GameObject(name: "Armoire", componentList: new IComponent[] { new FlammableComponent() }));
 
 
         gameObjectList.Add(new Item("Chair", new FlammableComponent()));
@@ -189,29 +187,4 @@
 
     }
 
-}
-
-public class Item : GameObject
-{
-    public Item(string name, params IComponent[] componentList) : base(name)
-    {
-        this.GetComponentList().AddRange(componentList);
-    }
-}
-
-public class Character:GameObject
-{
-    public Character(string name,int XCoordinate, int YCoordinate, params IComponent[] componentList) : base(name, new LocationComponent(XCoordinate, YCoordinate))
-    {
-        this.GetComponentList().AddRange(componentList);
-    }
-
-}
-
-public class Player : Character
-{
-    public Player(string name, int XCoordinate, int YCoordinate, params IComponent[] componentList) : base(name, XCoordinate,YCoordinate, new IComponent[] {new PlayerComponent()})
-    {
-        this.GetComponentList().AddRange(componentList);
-    }
 }
