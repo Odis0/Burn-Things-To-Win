@@ -13,11 +13,15 @@ GameObject? playerObject = gameObjectList.GetPlayerObject(); ///Get the object w
 PlayerUI playerUI = new PlayerUI(playerObject,gameObjectList);
 
 ///Messing Around
+/*
 GameObject VorpalSword = new Item("Vorpal Sword", new AttackableComponent());
 IActionComponent weaponComponent = VorpalSword.GetObjectComponentOfType<AttackableComponent>();
 weaponComponent.Activate(VorpalSword,new Armoire());
 Console.WriteLine(weaponComponent.GetName());
-
+*/
+GameObject lighter = new Item("Lighter", new IgniteComponent());
+IActionComponent igniteComponent = lighter.GetObjectComponentOfType<IgniteComponent>();
+igniteComponent.Activate(lighter, gameObjectList.GetGameObjectList()[8]);
 
 ///GameObject playerRoom;
 
@@ -90,4 +94,22 @@ public class AttackableComponent : GameObject,IActionComponent
     public AttackableComponent(): base("Attack") { }
 
 
+}
+
+public class IgniteComponent : GameObject, IActionComponent
+{
+    public void Activate(GameObject ownerObject)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Activate(GameObject ownerObject, GameObject targetObject)
+    {
+        FlammableComponent targetComponent = targetObject.GetObjectComponentOfType<FlammableComponent>();
+        if(targetComponent != null)
+        {
+            Console.WriteLine($"You set the {targetObject.GetName()} on fire with your {ownerObject.GetName()}!");
+            targetComponent.SetActive(true);
+        }
+    }
 }

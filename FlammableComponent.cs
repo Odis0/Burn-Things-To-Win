@@ -5,6 +5,8 @@ public class FlammableComponent : GameObject, IComponent
     private bool active = false;
     private int amountBurned = 0;
 
+    public bool GetActive() { return active; }
+    public void SetActive(bool onFire) {  active = onFire; }
 
 
     void IComponent.Update(GameObject? gameObject)
