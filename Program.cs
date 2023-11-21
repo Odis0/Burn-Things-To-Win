@@ -12,6 +12,13 @@ GameObjectList gameObjectList = new GameObjectList(); ///Initialize gameObjectLi
 GameObject? playerObject = gameObjectList.GetPlayerObject(); ///Get the object with the PlayerComponent component.
 PlayerUI playerUI = new PlayerUI(playerObject,gameObjectList);
 
+///Messing Around
+GameObject VorpalSword = new Item("Vorpal Sword", new AttackableComponent());
+IActionComponent weaponComponent = VorpalSword.GetObjectComponentOfType<AttackableComponent>();
+weaponComponent.Activate(VorpalSword,new Armoire());
+Console.WriteLine(weaponComponent.GetName());
+
+
 ///GameObject playerRoom;
 
 while (true)
@@ -58,3 +65,29 @@ while (true)
 
 
 
+public interface IActionComponent:IComponent
+{
+    
+    void Activate(GameObject ownerObject);
+    void Activate(GameObject object1,  GameObject object2);
+    string GetName();
+}
+
+public class AttackableComponent : GameObject,IActionComponent
+{
+
+
+    public void Activate(GameObject ownerObject, GameObject targetObject)
+    {
+        Console.WriteLine($"You attack the {targetObject.GetName()} with {ownerObject.GetName()}");
+    }
+
+    public void Activate(GameObject ownerObject)
+    {
+        throw new NotImplementedException();
+    }
+
+    public AttackableComponent(): base("Attack") { }
+
+
+}
