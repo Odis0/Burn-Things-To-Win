@@ -39,10 +39,25 @@
     {
         Console.WriteLine("What would you like to do?\n");
         Console.WriteLine("0: Move");
+        Console.WriteLine("1: Interact");
+        Console.WriteLine("2: Inventory");
+
         int playerInput = GetPlayerInput();
         return playerInput;
 
     }
+/*
+    public void DisplayInventoryActionMenu()
+    {
+       
+    }
+*/
+    /*public void DisplayInteractActionMenu() ///External Item Interactions
+    {
+        Console.WriteLine("What would you like to interact with")
+    }
+    */
+
 
     public void DisplayMoveActionMenu()
     {
