@@ -16,16 +16,12 @@ public class FlammableComponent : GameObject, IComponent
         {
             switch (amountBurned)
             {
-                case <=0:
-                    Console.WriteLine($"The {gameObject.GetName()} catches fire.");
-                    amountBurned++;
-                    break;
                 case <4:
-                    Console.WriteLine($"The {gameObject.GetName()} continues to burn.");
+                    Console.WriteLine($"\nThe {gameObject.GetName()} continues to burn.");
                     amountBurned++;
                     break;
                 case >= 4:
-                    Console.WriteLine($"The {gameObject.GetName()} burns to ash.");
+                    Console.WriteLine($"\nThe {gameObject.GetName()} burns to ash.");
                     active = false;
                     break;
                 default:
