@@ -153,7 +153,7 @@
     {
 
         ///Define Rooms
-
+        /*
         Room entrance = new Room("Entrance", 0, 0, "You stand in the entryway of an ancient and eerie house.");
         Room livingRoom = new Room("Living Room", 0, 1, "Dust covers the furniture in this living room, though 'living' isn't the first word you'd associate with this forsaken place.");
         Room den = new Room("Den", 1, 0, "This study was once a place where serious work was done. The only laborers here now are spiders, diligently spinning their cobwebs.");
@@ -183,8 +183,7 @@
 
 
         GetGameObjectList();
-
-
+        */
     }
 
 }

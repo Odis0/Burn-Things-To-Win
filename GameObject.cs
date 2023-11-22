@@ -1,11 +1,9 @@
 ﻿
 
-public class GameObject : IComponent
+public class GameObject
 {
     private string name;
-    private List<IComponent> componentList = new List<IComponent>();
-
-
+    public List<IComponent> componentList = new List<IComponent>();
 
     public string GetName()
     {

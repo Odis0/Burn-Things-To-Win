@@ -1,7 +1,7 @@
 ﻿
 public class Character:GameObject
 {
-    public Character(string name,int XCoordinate, int YCoordinate, params IComponent[] componentList) : base(name, new LocationComponent(XCoordinate, YCoordinate))
+    public Character(string name, int XCoordinate, int YCoordinate, params IComponent[] componentList) : base(name)
     {
         this.GetComponentList().AddRange(componentList);
     }

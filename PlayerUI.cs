@@ -2,11 +2,10 @@
 
 {
     GameObject playerObject;
-    GameObjectList gameObjectList;
-    public PlayerUI(GameObject playerObject, GameObjectList gameObjectList)
+    public PlayerUI(GameObject playerObject)
     {
         this.playerObject = playerObject;
-        this.gameObjectList = gameObjectList;
+ 
     }
 
     public void DisplayUITopLevel()
@@ -46,43 +45,41 @@
         return playerInput;
 
     }
-/*
-    public void DisplayInventoryActionMenu()
-    {
-       
-    }
-*/
-    /*public void DisplayInteractActionMenu() ///External Item Interactions
-    {
-        Console.WriteLine("What would you like to interact with")
-    }
-    */
-
 
     public void DisplayMoveActionMenu()
     {
         while (true)
         {
-            List<(GameObject, string)> adjacentRoomsWithDirections = gameObjectList.GetRoomObjectsAndCompassDirectionsAtAdjacentLocations(playerObject);
-
+           
             Console.WriteLine("Where would you like to move?\n");
 
             int i = 0;
-            foreach ((GameObject room, string direction) in adjacentRoomsWithDirections)
+            List<Room> Connection = new List<Room>();
+            /*
+            foreach(IComponent c in playerObject.parentSpace.parentObject.componentList)
             {
-                Console.WriteLine($"{i}:{room.GetName()} - {direction}");
-                i++;
-            }
+                if (c is NauticalComponent)
+                {
+                    Console.WriteLine($"{i}:{((NauticalComponent)c).connectingRoom.GetName()} - {((NauticalComponent)c).direction}");
+                    Connection.Add(((NauticalComponent)c).connectingRoom);
+                    i++;
+                }
+                
+            }*/
+            
+                
+            /*
 
             Console.WriteLine($"{i}: Back");
             int playerinput0 = GetPlayerInput();
             if (playerinput0 >= 0 && playerinput0 < i)
             {
-                LocationComponent selectedLocation = adjacentRoomsWithDirections[playerinput0].Item1.GetObjectLocationComponent();
-                playerObject.GetObjectLocationComponent().SetXLocation(selectedLocation.GetXLocation());
-                playerObject.GetObjectLocationComponent().SetYLocation(selectedLocation.GetYLocation());
+                ((SpaceComponent)Connection[playerinput0].componentList[0]).gameObjectList.Add(playerObject);
+                playerObject.parentSpace.gameObjectList.Remove(playerObject);
+                playerObject.parentSpace = ((SpaceComponent)Connection[playerinput0].componentList[0]);
+                
                 break;            
-            }
+            }*/
             
 
         }
